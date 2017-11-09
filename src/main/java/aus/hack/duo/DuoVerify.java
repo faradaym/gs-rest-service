@@ -27,45 +27,50 @@ public class DuoVerify {
 
 	public DuoVerify() {
 		super();
-
 	}
 
 	public static void main(String[] args) {
 
 		DuoVerify dv = new DuoVerify();
-		dv.login("jai");
+		System.out.println("Login staus for jai:" + dv.login("jai"));
+		System.out.println("Login staus for abc:" + dv.login("abc"));
 	}
 
-	public void login(String userName){
+	public boolean login(String userName){
 
 		try{
 			Http request = new Http("POST",
 					apiHost,
-					"/auth/v2/preauth");
+					"/auth/v2/auth");
 
-			request.addParam("username","jai");
+			request.addParam("username",userName);
+			request.addParam("factor", "push");
+			request.addParam("device", "auto");
 			request.signRequest(iKey,
 					sKey,
 					2);
 
 			JSONObject result = (JSONObject)request.executeRequest();
 			System.out.println(" Dome with preauth"  + result);
+			if(((String)result.get("status_msg")).contains("Success")){
+				return true;
+			}
 		}
 		catch(Exception e) {
 			System.out.println("error making request");
 			System.out.println(e.toString());
 		}
-
+		return false;
 	}
 
-	public void enroll(String name){
+	public boolean enroll(String name){
 
 		try{
 			Http request = new Http("POST",
 					apiHost,
 					"/auth/v2/enroll");
 
-			request.addParam("username","test");
+			request.addParam("username",name);
 			request.signRequest(iKey,
 					sKey,
 					2);
@@ -76,6 +81,8 @@ public class DuoVerify {
 		catch(Exception e) {
 			System.out.println("error making request");
 			System.out.println(e.toString());
+			return false;
 		}
+		return true;
 	}
 }
