@@ -32,11 +32,12 @@ public class DuoVerify {
 	public static void main(String[] args) {
 
 		DuoVerify dv = new DuoVerify();
-		System.out.println("Login staus for jai:" + dv.login("jai"));
-		System.out.println("Login staus for abc:" + dv.login("abc"));
+//		System.out.println("Login staus for jai:" + dv.login("jai"));
+//		System.out.println("Login staus for abc:" + dv.login("abc"));
+		System.out.println("enrollment status:" + dv.enrollQR("test456"));
 	}
 
-	public boolean login(String userName){
+	public boolean login(String userName, String capability){
 
 		try{
 			Http request = new Http("POST",
@@ -44,8 +45,8 @@ public class DuoVerify {
 					"/auth/v2/auth");
 
 			request.addParam("username",userName);
-			request.addParam("factor", "push");
-			request.addParam("device", "auto");
+			request.addParam("factor", capability);
+			request.addParam("device", "mobile");
 			request.signRequest(iKey,
 					sKey,
 					2);
@@ -84,5 +85,30 @@ public class DuoVerify {
 			return false;
 		}
 		return true;
+	}
+
+	public String enrollQR(String name){
+
+		try{
+			Http request = new Http("POST",
+					apiHost,
+					"/auth/v2/enroll");
+
+			request.addParam("username",name);
+			request.signRequest(iKey,
+					sKey,
+					2);
+
+			JSONObject result = (JSONObject)request.executeRequest();
+			System.out.println(" Dome with enroll"  + result);
+			return "" +result;
+		}
+
+		catch(Exception e) {
+			System.out.println("error making request");
+			System.out.println(e.toString());
+			return "error with enrolling";
+		}
+
 	}
 }
