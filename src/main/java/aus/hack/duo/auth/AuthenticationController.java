@@ -23,4 +23,10 @@ import aus.hack.duo.DuoVerify;
             return dv.login(name, capability);
         }
 
+        @RequestMapping("/enroll")
+        public String enrollQR(@RequestParam(value="name", defaultValue="World") String name) {
+            return dv.enrollQR(name);
+        }
+
+
     }
