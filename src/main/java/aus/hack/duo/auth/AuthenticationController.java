@@ -14,8 +14,9 @@ import aus.hack.duo.DuoVerify;
         DuoVerify dv = new DuoVerify();
 
         @RequestMapping("/enroll")
-        public Boolean enroll(@RequestParam(value="name", defaultValue="World") String name) {
-            return dv.enroll(name);
+        public String enroll(@RequestParam(value="name", defaultValue="harry") String name) {
+            System.out.print("name:" + name);
+            return dv.enrollQR(name);
         }
 
         @RequestMapping("/login")
@@ -23,10 +24,11 @@ import aus.hack.duo.DuoVerify;
             return dv.login(name, capability);
         }
 
-        @RequestMapping("/enroll")
+        @RequestMapping("/enrollQR")
         public String enrollQR(@RequestParam(value="name", defaultValue="World") String name) {
             return dv.enrollQR(name);
         }
+        
 
 
     }
