@@ -29,8 +29,8 @@ public class GreetingController {
     }
 
     @RequestMapping("/login")
-    public Boolean login(@RequestParam(value="name", defaultValue="World") String name) {
-        dv.login(name);
+    public Boolean login(@RequestParam(value="name", defaultValue="World") String name, @RequestParam(value="capability", defaultValue="push") String capability) {
+        dv.login(name, capability);
 
         return new Boolean(true);
     }

@@ -32,11 +32,11 @@ public class DuoVerify {
 	public static void main(String[] args) {
 
 		DuoVerify dv = new DuoVerify();
-		System.out.println("Login staus for jai:" + dv.login("jai"));
-		System.out.println("Login staus for abc:" + dv.login("abc"));
+//		System.out.println("Login staus for jai:" + dv.login("jai"));
+//		System.out.println("Login staus for abc:" + dv.login("abc"));
 	}
 
-	public boolean login(String userName){
+	public boolean login(String userName, String capability){
 
 		try{
 			Http request = new Http("POST",
@@ -44,8 +44,8 @@ public class DuoVerify {
 					"/auth/v2/auth");
 
 			request.addParam("username",userName);
-			request.addParam("factor", "push");
-			request.addParam("device", "auto");
+			request.addParam("factor", capability);
+			request.addParam("device", "mobile");
 			request.signRequest(iKey,
 					sKey,
 					2);
